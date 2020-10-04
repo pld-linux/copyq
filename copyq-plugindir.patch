@@ -1,0 +1,12 @@
+diff --color -urN CopyQ-3.12.0.orig/CMakeLists.txt CopyQ-3.12.0/CMakeLists.txt
+--- CopyQ-3.12.0.orig/CMakeLists.txt	2020-07-12 11:15:04.000000000 +0200
++++ CopyQ-3.12.0/CMakeLists.txt	2020-10-04 17:21:02.130810256 +0200
+@@ -30,7 +30,7 @@
+ if (UNIX AND NOT APPLE)
+     include(GNUInstallDirs)
+     set(DATA_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}" CACHE PATH "Install path for data")
+-    set(PLUGIN_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_SHARED_MODULE_PREFIX}/copyq/plugins" CACHE PATH "Install path for plugins")
++    set(PLUGIN_INSTALL_PREFIX "${CMAKE_INSTALL_LIBDIR}/copyq/plugins" CACHE PATH "Install path for plugins")
+     set(ICON_INSTALL_PREFIX "${DATA_INSTALL_PREFIX}/icons/hicolor/scalable/apps" CACHE PATH "Install path for icons")
+     set(ICON_INSTALL_PREFIX_TEMPLATE "${DATA_INSTALL_PREFIX}/icons/hicolor/%SIZE%/apps" CACHE PATH "Install path for icons (%SIZE% is icon size)")
+     set(THEME_INSTALL_PREFIX "${DATA_INSTALL_PREFIX}/copyq/themes" CACHE PATH "Install path for themes")
