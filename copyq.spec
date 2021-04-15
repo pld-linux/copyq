@@ -1,31 +1,64 @@
+%define		qtver	5.8.0
+
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	3.13.0
+Version:	4.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	9597af33ac85be21c574e736382ed93a
+# Source0-md5:	2015c7772d2c3dec3608351a9a045c04
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
-BuildRequires:	Qt5Core-devel
-BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5Network-devel
-BuildRequires:	Qt5Script-devel
-BuildRequires:	Qt5Svg
-BuildRequires:	Qt5Widgets-devel >= 5.5.0
-BuildRequires:	Qt5Xml-devel
+BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5Gui-devel >= %{qtver}
+BuildRequires:	Qt5Network-devel >= %{qtver}
+BuildRequires:	Qt5Qml-devel >= %{qtver}
+BuildRequires:	Qt5Script-devel >= %{qtver}
+BuildRequires:	Qt5Svg-devel >= %{qtver}
+BuildRequires:	Qt5WaylandClient-devel >= %{qtver}
+BuildRequires:	Qt5Widgets-devel >= %{qtver}
+BuildRequires:	Qt5X11Extras-devel >= %{qtver}
+BuildRequires:	Qt5Xml-devel >= %{qtver}
 BuildRequires:	cmake >= 2.8.12
+BuildRequires:	kf5-extra-cmake-modules >= 5.18.0
+BuildRequires:	kf5-knotifications-devel >= 5.18.0
+BuildRequires:	libstdc++-devel >= 6:7
+BuildRequires:	libxcb-devel
 BuildRequires:	qt5-linguist
-Requires:	Qt5Widgets >= 5.5.0
+BuildRequires:	rpm-build >= 4.6
+BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-proto-xproto-devel
+Requires:	Qt5Core >= %{qtver}
+Requires:	Qt5Gui >= %{qtver}
+Requires:	Qt5Network >= %{qtver}
+Requires:	Qt5Qml >= %{qtver}
+Requires:	Qt5Script >= %{qtver}
+Requires:	Qt5Svg >= %{qtver}
+Requires:	Qt5WaylandClient >= %{qtver}
+Requires:	Qt5Widgets >= %{qtver}
+Requires:	Qt5X11Extras >= %{qtver}
+Requires:	Qt5Xml >= %{qtver}
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
+Requires:	kf5-knotifications >= 5.18.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 CopyQ monitors system clipboard and saves its content in customized
 tabs. Saved clipboard can be later copied and pasted directly into any
 application.
+
+%package -n bash-completion-copyq
+Summary:	Bash completion for CopyQ
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion >= 2.0
+BuildArch:	noarch
+
+%description -n bash-completion-copyq
+Bash completion for CopyQ.
 
 %prep
 %setup -q -n CopyQ-%{version}
@@ -78,3 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/apps/copyq_mask.svg
 %{_mandir}/man1/copyq.1*
 %{_datadir}/metainfo/com.github.hluk.copyq.appdata.xml
+
+%files -n bash-completion-copyq
+%defattr(644,root,root,755)
+%{bash_compdir}/copyq
