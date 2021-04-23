@@ -2,12 +2,12 @@
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	4.0.0
+Version:	4.1.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2015c7772d2c3dec3608351a9a045c04
+# Source0-md5:	4df535288b6e88222ec2eda353df655c
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
 BuildRequires:	Qt5Core-devel >= %{qtver}
