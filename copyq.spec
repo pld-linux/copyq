@@ -2,19 +2,18 @@
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	4.1.0
+Version:	5.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	4df535288b6e88222ec2eda353df655c
+# Source0-md5:	5aebdc0dc840a6c30cff024e1815c138
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= %{qtver}
 BuildRequires:	Qt5Network-devel >= %{qtver}
 BuildRequires:	Qt5Qml-devel >= %{qtver}
-BuildRequires:	Qt5Script-devel >= %{qtver}
 BuildRequires:	Qt5Svg-devel >= %{qtver}
 BuildRequires:	Qt5WaylandClient-devel >= %{qtver}
 BuildRequires:	Qt5Widgets-devel >= %{qtver}
@@ -28,7 +27,10 @@ BuildRequires:	libxcb-devel
 BuildRequires:	qt5-linguist
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	wayland-devel >= 1.15
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXfixes-devel
+BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-proto-xproto-devel
 Requires:	Qt5Core >= %{qtver}
 Requires:	Qt5Gui >= %{qtver}
