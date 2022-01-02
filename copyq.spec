@@ -1,47 +1,76 @@
-%define		qtver	5.8.0
+#
+# Conditional build
+%bcond_with	qt6		# build againast Qt6
+
+%define		qt5ver	5.8.0
+%define		qt6ver	6.1.0
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	5.0.0
+Version:	6.0.1
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	5aebdc0dc840a6c30cff024e1815c138
+# Source0-md5:	c48d87f1d6ce66897a2ba97a781966cf
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
-BuildRequires:	Qt5Core-devel >= %{qtver}
-BuildRequires:	Qt5Gui-devel >= %{qtver}
-BuildRequires:	Qt5Network-devel >= %{qtver}
-BuildRequires:	Qt5Qml-devel >= %{qtver}
-BuildRequires:	Qt5Svg-devel >= %{qtver}
-BuildRequires:	Qt5WaylandClient-devel >= %{qtver}
-BuildRequires:	Qt5Widgets-devel >= %{qtver}
-BuildRequires:	Qt5X11Extras-devel >= %{qtver}
-BuildRequires:	Qt5Xml-devel >= %{qtver}
+%if %{without qt6}
+BuildRequires:	Qt5Core-devel >= %{qt5ver}
+BuildRequires:	Qt5Gui-devel >= %{qt5ver}
+BuildRequires:	Qt5Network-devel >= %{qt5ver}
+BuildRequires:	Qt5Qml-devel >= %{qt5ver}
+BuildRequires:	Qt5Svg-devel >= %{qt5ver}
+BuildRequires:	Qt5WaylandClient-devel >= %{qt5ver}
+BuildRequires:	Qt5Widgets-devel >= %{qt5ver}
+BuildRequires:	Qt5X11Extras-devel >= %{qt5ver}
+BuildRequires:	Qt5Xml-devel >= %{qt5ver}
+BuildRequires:	qt5-linguist
+%else
+BuildRequires:	Qt6Core-devel >= %{qt6ver}
+BuildRequires:	Qt6Gui-devel >= %{qt6ver}
+BuildRequires:	Qt6Network-devel >= %{qt6ver}
+BuildRequires:	Qt6Qml-devel >= %{qt6ver}
+BuildRequires:	Qt6Svg-devel >= %{qt6ver}
+BuildRequires:	Qt6WaylandClient-devel >= %{qt6ver}
+BuildRequires:	Qt6Widgets-devel >= %{qt6ver}
+BuildRequires:	Qt6Xml-devel >= %{qt6ver}
+BuildRequires:	qt6-linguist
+%endif
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	kf5-extra-cmake-modules >= 5.18.0
 BuildRequires:	kf5-knotifications-devel >= 5.18.0
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libxcb-devel
-BuildRequires:	qt5-linguist
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	rpmbuild(macros) >= 1.742
 BuildRequires:	wayland-devel >= 1.15
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-proto-xproto-devel
-Requires:	Qt5Core >= %{qtver}
-Requires:	Qt5Gui >= %{qtver}
-Requires:	Qt5Network >= %{qtver}
-Requires:	Qt5Qml >= %{qtver}
-Requires:	Qt5Script >= %{qtver}
-Requires:	Qt5Svg >= %{qtver}
-Requires:	Qt5WaylandClient >= %{qtver}
-Requires:	Qt5Widgets >= %{qtver}
-Requires:	Qt5X11Extras >= %{qtver}
-Requires:	Qt5Xml >= %{qtver}
+%if %{without qt6}
+Requires:	Qt5Core >= %{qt5ver}
+Requires:	Qt5Gui >= %{qt5ver}
+Requires:	Qt5Network >= %{qt5ver}
+Requires:	Qt5Qml >= %{qt5ver}
+Requires:	Qt5Script >= %{qt5ver}
+Requires:	Qt5Svg >= %{qt5ver}
+Requires:	Qt5WaylandClient >= %{qt5ver}
+Requires:	Qt5Widgets >= %{qt5ver}
+Requires:	Qt5X11Extras >= %{qt5ver}
+Requires:	Qt5Xml >= %{qt5ver}
+%else
+Requires:	Qt6Core >= %{qt6ver}
+Requires:	Qt6Gui >= %{qt6ver}
+Requires:	Qt6Network >= %{qt6ver}
+Requires:	Qt6Qml >= %{qt6ver}
+Requires:	Qt6Script >= %{qt6ver}
+Requires:	Qt6Svg >= %{qt6ver}
+Requires:	Qt6WaylandClient >= %{qt6ver}
+Requires:	Qt6Widgets >= %{qt6ver}
+Requires:	Qt6Xml >= %{qt6ver}
+%endif
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 Requires:	kf5-knotifications >= 5.18.0
@@ -70,6 +99,7 @@ Bash completion for CopyQ.
 install -d build
 cd build
 %cmake .. \
+	%{cmake_on_off qt6 WITH_QT6} \
 	-DDATA_INSTALL_PREFIX:PATH=%{_datadir}
 %{__make}
 
