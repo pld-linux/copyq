@@ -7,12 +7,12 @@
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	7.0.0
+Version:	7.1.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c9e15379b845342f6fca7822a7f83e0e
+# Source0-md5:	08c93069ad9221eb46f6168ef7ea3f58
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
 %if %{without qt6}
@@ -37,7 +37,7 @@ BuildRequires:	Qt6Widgets-devel >= %{qt6ver}
 BuildRequires:	Qt6Xml-devel >= %{qt6ver}
 BuildRequires:	qt6-linguist
 %endif
-BuildRequires:	cmake >= 2.8.12
+BuildRequires:	cmake >= 3.13
 BuildRequires:	kf5-extra-cmake-modules >= 5.18.0
 BuildRequires:	kf5-knotifications-devel >= 5.18.0
 BuildRequires:	libstdc++-devel >= 6:7
