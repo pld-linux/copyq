@@ -1,6 +1,6 @@
 #
 # Conditional build
-%bcond_with	qt6		# build againast Qt6
+%bcond_without	qt6		# build againast Qt5
 
 %define		qt5ver	5.8.0
 %define		qt6ver	6.1.0
