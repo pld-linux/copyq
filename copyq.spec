@@ -38,6 +38,7 @@ BuildRequires:	Qt6Xml-devel >= %{qt6ver}
 BuildRequires:	qt6-linguist
 %endif
 BuildRequires:	cmake >= 3.13
+BuildRequires:	kf5-extra-cmake-modules
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libxcb-devel
 BuildRequires:	rpm-build >= 4.6
