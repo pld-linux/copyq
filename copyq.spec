@@ -90,7 +90,7 @@ Bash completion for CopyQ.
 
 %prep
 %setup -q -n CopyQ-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 install -d build
