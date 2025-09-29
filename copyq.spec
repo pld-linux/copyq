@@ -2,21 +2,22 @@
 # Conditional build
 %bcond_without	qt6		# build againast Qt5
 
-%define		qt5ver	5.8.0
+%define		qt5ver	5.15.0
 %define		qt6ver	6.1.0
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	11.0.0
+Version:	12.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	6bc2aa98be8ccbbf78d873e06634028c
+# Source0-md5:	2eed081d85737078a8d77ad90779f2d7
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
 %if %{without qt6}
 BuildRequires:	Qt5Core-devel >= %{qt5ver}
+BuildRequires:	Qt5DBus-devel >= %{qt5ver}
 BuildRequires:	Qt5Gui-devel >= %{qt5ver}
 BuildRequires:	Qt5Network-devel >= %{qt5ver}
 BuildRequires:	Qt5Qml-devel >= %{qt5ver}
@@ -28,6 +29,7 @@ BuildRequires:	Qt5Xml-devel >= %{qt5ver}
 BuildRequires:	qt5-linguist
 %else
 BuildRequires:	Qt6Core-devel >= %{qt6ver}
+BuildRequires:	Qt6DBus-devel >= %{qt6ver}
 BuildRequires:	Qt6Gui-devel >= %{qt6ver}
 BuildRequires:	Qt6Network-devel >= %{qt6ver}
 BuildRequires:	Qt6Qml-devel >= %{qt6ver}
@@ -50,6 +52,7 @@ BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-proto-xproto-devel
 %if %{without qt6}
 Requires:	Qt5Core >= %{qt5ver}
+Requires:	Qt5DBus >= %{qt5ver}
 Requires:	Qt5Gui >= %{qt5ver}
 Requires:	Qt5Network >= %{qt5ver}
 Requires:	Qt5Qml >= %{qt5ver}
@@ -60,6 +63,7 @@ Requires:	Qt5X11Extras >= %{qt5ver}
 Requires:	Qt5Xml >= %{qt5ver}
 %else
 Requires:	Qt6Core >= %{qt6ver}
+Requires:	Qt6DBus >= %{qt6ver}
 Requires:	Qt6Gui >= %{qt6ver}
 Requires:	Qt6Network >= %{qt6ver}
 Requires:	Qt6Qml >= %{qt6ver}
@@ -70,7 +74,6 @@ Requires:	Qt6Xml >= %{qt6ver}
 %endif
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
-Requires:	kf5-knotifications >= 5.18.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
