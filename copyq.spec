@@ -7,13 +7,14 @@
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	12.0.1
+Version:	13.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	4ed846cc7f96af5f94f2f2b051691c47
+# Source0-md5:	51fc587e3452ac0fd08dabb1e58c29b3
 Patch0:		%{name}-plugindir.patch
+Patch1:		qt6-6.10.patch
 URL:		https://hluk.github.io/CopyQ/
 %if %{without qt6}
 BuildRequires:	Qt5Core-devel >= %{qt5ver}
@@ -39,7 +40,7 @@ BuildRequires:	Qt6Widgets-devel >= %{qt6ver}
 BuildRequires:	Qt6Xml-devel >= %{qt6ver}
 BuildRequires:	qt6-linguist
 %endif
-BuildRequires:	cmake >= 3.13
+BuildRequires:	cmake >= 3.16
 BuildRequires:	kf5-extra-cmake-modules
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libxcb-devel
@@ -94,15 +95,14 @@ Bash completion for CopyQ.
 %prep
 %setup -q -n CopyQ-%{version}
 %patch -P0 -p1
+%patch -P1 -p1
 
 %build
-install -d build
-cd build
-%cmake .. \
+%cmake -B build \
 	-DWITH_NATIVE_NOTIFICATIONS:BOOL=OFF \
 	%{cmake_on_off qt6 WITH_QT6} \
 	-DDATA_INSTALL_PREFIX:PATH=%{_datadir}
-%{__make}
+%{__make} -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
