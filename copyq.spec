@@ -7,19 +7,19 @@
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	13.0.0
+Version:	14.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	51fc587e3452ac0fd08dabb1e58c29b3
+# Source0-md5:	18d95827a1d539c16e696b0f9dbd34f8
 Patch0:		%{name}-plugindir.patch
-Patch1:		qt6-6.10.patch
 URL:		https://hluk.github.io/CopyQ/
 %if %{without qt6}
 BuildRequires:	Qt5Core-devel >= %{qt5ver}
 BuildRequires:	Qt5DBus-devel >= %{qt5ver}
 BuildRequires:	Qt5Gui-devel >= %{qt5ver}
+BuildRequires:	Qt5Keychain-devel
 BuildRequires:	Qt5Network-devel >= %{qt5ver}
 BuildRequires:	Qt5Qml-devel >= %{qt5ver}
 BuildRequires:	Qt5Svg-devel >= %{qt5ver}
@@ -27,23 +27,27 @@ BuildRequires:	Qt5WaylandClient-devel >= %{qt5ver}
 BuildRequires:	Qt5Widgets-devel >= %{qt5ver}
 BuildRequires:	Qt5X11Extras-devel >= %{qt5ver}
 BuildRequires:	Qt5Xml-devel >= %{qt5ver}
+BuildRequires:	qca-qt5-devel
 BuildRequires:	qt5-linguist
 %else
 BuildRequires:	Qt6Core-devel >= %{qt6ver}
 BuildRequires:	Qt6DBus-devel >= %{qt6ver}
 BuildRequires:	Qt6Gui-devel >= %{qt6ver}
+BuildRequires:	Qt6Keychain-devel
 BuildRequires:	Qt6Network-devel >= %{qt6ver}
 BuildRequires:	Qt6Qml-devel >= %{qt6ver}
 BuildRequires:	Qt6Svg-devel >= %{qt6ver}
 BuildRequires:	Qt6WaylandClient-devel >= %{qt6ver}
 BuildRequires:	Qt6Widgets-devel >= %{qt6ver}
 BuildRequires:	Qt6Xml-devel >= %{qt6ver}
+BuildRequires:	qca-qt6-devel
 BuildRequires:	qt6-linguist
 %endif
 BuildRequires:	cmake >= 3.16
 BuildRequires:	kf5-extra-cmake-modules
 BuildRequires:	libstdc++-devel >= 6:7
 BuildRequires:	libxcb-devel
+BuildRequires:	miniaudio-devel
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.742
 BuildRequires:	wayland-devel >= 1.15
@@ -92,16 +96,30 @@ BuildArch:	noarch
 %description -n bash-completion-copyq
 Bash completion for CopyQ.
 
+%package -n gnome-shell-extension-copyq
+Summary:	GNOME Shell extension for CopyQ
+Summary(pl.UTF-8):	Rozszerzenie powłoki GNOME (GNOME Shell) dla CopyQ
+Group:		X11/Applications
+Requires:	%{name} = %{version}-%{release}
+Requires:	gnome-shell >= 3.36
+BuildArch:	noarch
+
+%description -n gnome-shell-extension-copyq
+GNOME Shell extension for CopyQ.
+
+%description -n gnome-shell-extension-copyq -l pl.UTF-8
+Rozszerzenie powłoki GNOME (GNOME Shell) dla CopyQ.
+
 %prep
 %setup -q -n CopyQ-%{version}
 %patch -P0 -p1
-%patch -P1 -p1
 
 %build
 %cmake -B build \
 	-DWITH_NATIVE_NOTIFICATIONS:BOOL=OFF \
 	%{cmake_on_off qt6 WITH_QT6} \
-	-DDATA_INSTALL_PREFIX:PATH=%{_datadir}
+	-DDATA_INSTALL_PREFIX:PATH=%{_datadir} \
+	-DMINIAUDIO_INCLUDE_DIR:PATH=/usr/include/miniaudio
 %{__make} -C build
 
 %install
@@ -143,8 +161,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/apps/copyq.svg
 %{_iconsdir}/hicolor/scalable/apps/copyq_mask.svg
 %{_mandir}/man1/copyq.1*
-%{_datadir}/metainfo/com.github.hluk.copyq.appdata.xml
+%{_datadir}/metainfo/com.github.hluk.copyq.metainfo.xml
 
 %files -n bash-completion-copyq
 %defattr(644,root,root,755)
 %{bash_compdir}/copyq
+
+%files -n gnome-shell-extension-copyq
+%defattr(644,root,root,755)
+%dir %{_datadir}/gnome-shell/extensions/copyq-clipboard@hluk.github.com
+%{_datadir}/gnome-shell/extensions/copyq-clipboard@hluk.github.com/extension.js
+%{_datadir}/gnome-shell/extensions/copyq-clipboard@hluk.github.com/metadata.json
