@@ -1,35 +1,15 @@
-#
-# Conditional build
-%bcond_without	qt6		# build againast Qt5
-
-%define		qt5ver	5.15.0
-%define		qt6ver	6.1.0
+%define		qt6ver	6.2.0
 
 Summary:	Advanced clipboard manager with editing and scripting features
 Name:		copyq
-Version:	14.0.0
+Version:	15.0.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://github.com/hluk/CopyQ/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	18d95827a1d539c16e696b0f9dbd34f8
+# Source0-md5:	81b2e6f303d2608b9e787b2b07e144a0
 Patch0:		%{name}-plugindir.patch
 URL:		https://hluk.github.io/CopyQ/
-%if %{without qt6}
-BuildRequires:	Qt5Core-devel >= %{qt5ver}
-BuildRequires:	Qt5DBus-devel >= %{qt5ver}
-BuildRequires:	Qt5Gui-devel >= %{qt5ver}
-BuildRequires:	Qt5Keychain-devel
-BuildRequires:	Qt5Network-devel >= %{qt5ver}
-BuildRequires:	Qt5Qml-devel >= %{qt5ver}
-BuildRequires:	Qt5Svg-devel >= %{qt5ver}
-BuildRequires:	Qt5WaylandClient-devel >= %{qt5ver}
-BuildRequires:	Qt5Widgets-devel >= %{qt5ver}
-BuildRequires:	Qt5X11Extras-devel >= %{qt5ver}
-BuildRequires:	Qt5Xml-devel >= %{qt5ver}
-BuildRequires:	qca-qt5-devel
-BuildRequires:	qt5-linguist
-%else
 BuildRequires:	Qt6Core-devel >= %{qt6ver}
 BuildRequires:	Qt6DBus-devel >= %{qt6ver}
 BuildRequires:	Qt6Gui-devel >= %{qt6ver}
@@ -42,7 +22,6 @@ BuildRequires:	Qt6Widgets-devel >= %{qt6ver}
 BuildRequires:	Qt6Xml-devel >= %{qt6ver}
 BuildRequires:	qca-qt6-devel
 BuildRequires:	qt6-linguist
-%endif
 BuildRequires:	cmake >= 3.16
 BuildRequires:	kf5-extra-cmake-modules
 BuildRequires:	libstdc++-devel >= 6:7
@@ -55,18 +34,6 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-proto-xproto-devel
-%if %{without qt6}
-Requires:	Qt5Core >= %{qt5ver}
-Requires:	Qt5DBus >= %{qt5ver}
-Requires:	Qt5Gui >= %{qt5ver}
-Requires:	Qt5Network >= %{qt5ver}
-Requires:	Qt5Qml >= %{qt5ver}
-Requires:	Qt5Svg >= %{qt5ver}
-Requires:	Qt5WaylandClient >= %{qt5ver}
-Requires:	Qt5Widgets >= %{qt5ver}
-Requires:	Qt5X11Extras >= %{qt5ver}
-Requires:	Qt5Xml >= %{qt5ver}
-%else
 Requires:	Qt6Core >= %{qt6ver}
 Requires:	Qt6DBus >= %{qt6ver}
 Requires:	Qt6Gui >= %{qt6ver}
@@ -76,7 +43,6 @@ Requires:	Qt6Svg >= %{qt6ver}
 Requires:	Qt6WaylandClient >= %{qt6ver}
 Requires:	Qt6Widgets >= %{qt6ver}
 Requires:	Qt6Xml >= %{qt6ver}
-%endif
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -117,7 +83,6 @@ Rozszerzenie powłoki GNOME (GNOME Shell) dla CopyQ.
 %build
 %cmake -B build \
 	-DWITH_NATIVE_NOTIFICATIONS:BOOL=OFF \
-	%{cmake_on_off qt6 WITH_QT6} \
 	-DDATA_INSTALL_PREFIX:PATH=%{_datadir} \
 	-DMINIAUDIO_INCLUDE_DIR:PATH=/usr/include/miniaudio
 %{__make} -C build
